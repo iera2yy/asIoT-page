@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0d397c9a-fa8d-419c-b127-7b2809defd2c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/assets/css/test.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/less/test.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config-overrides.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/assets/css/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/css/App.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/less/App.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/css/index.less" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/less/index.less" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +19,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Less File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -109,6 +108,8 @@
       <workItem from="1615461937175" duration="448000" />
       <workItem from="1615466203837" duration="1487000" />
       <workItem from="1615467813088" duration="871000" />
+      <workItem from="1615468746657" duration="3734000" />
+      <workItem from="1615512268825" duration="704000" />
     </task>
     <task id="LOCAL-00001" summary="初始化配置less">
       <created>1615467863518</created>
@@ -117,7 +118,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615467863518</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="配置less自动生成css">
+      <created>1615468826217</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1615468826217</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -128,7 +136,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -137,28 +147,49 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="初始化配置less" />
-    <option name="LAST_COMMIT_MESSAGE" value="初始化配置less" />
+    <MESSAGE value="配置less自动生成css" />
+    <option name="LAST_COMMIT_MESSAGE" value="配置less自动生成css" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="320" y="128" key="#Configure_Path_Variables" timestamp="1615512348551">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="320" y="128" key="#Configure_Path_Variables/0.23.1440.877@0.23.1440.877" timestamp="1615512348551" />
     <state x="542" y="256" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1615468357280">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
     <state x="542" y="256" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1440.877@0.23.1440.877" timestamp="1615468357280" />
-    <state x="222" y="66" key="CommitChangelistDialog2" timestamp="1615467863078">
+    <state x="222" y="66" key="CommitChangelistDialog2" timestamp="1615468825960">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="222" y="66" key="CommitChangelistDialog2/0.23.1440.877@0.23.1440.877" timestamp="1615467863078" />
-    <state x="584" y="263" width="856" height="637" key="EditFileWatcherDialog" timestamp="1615468538281">
+    <state x="222" y="66" key="CommitChangelistDialog2/0.23.1440.877@0.23.1440.877" timestamp="1615468825960" />
+    <state x="334" y="165" width="856" height="637" key="EditFileWatcherDialog" timestamp="1615512481274">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="584" y="263" width="856" height="637" key="EditFileWatcherDialog/0.23.1440.877@0.23.1440.877" timestamp="1615468538281" />
-    <state x="443" y="117" key="SettingsEditor" timestamp="1615468541616">
+    <state x="334" y="165" width="856" height="637" key="EditFileWatcherDialog/0.23.1440.877@0.23.1440.877" timestamp="1615512481274" />
+    <state width="1419" height="230" key="GridCell.Tab.0.bottom" timestamp="1615473853799">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="443" y="117" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1615468541616" />
-    <state x="320" y="203" key="Vcs.Push.Dialog.v2" timestamp="1615468788743">
+    <state width="1419" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1615473853799" />
+    <state width="1419" height="230" key="GridCell.Tab.0.center" timestamp="1615473853798">
       <screen x="0" y="23" width="1440" height="877" />
     </state>
-    <state x="320" y="203" key="Vcs.Push.Dialog.v2/0.23.1440.877@0.23.1440.877" timestamp="1615468788743" />
+    <state width="1419" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1615473853798" />
+    <state width="1419" height="230" key="GridCell.Tab.0.left" timestamp="1615473853797">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state width="1419" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1615473853797" />
+    <state width="1419" height="230" key="GridCell.Tab.0.right" timestamp="1615473853799">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state width="1419" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1615473853799" />
+    <state x="165" y="42" key="SettingsEditor" timestamp="1615512546279">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="165" y="42" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1615512546279" />
+    <state x="320" y="203" key="Vcs.Push.Dialog.v2" timestamp="1615468866122">
+      <screen x="0" y="23" width="1440" height="877" />
+    </state>
+    <state x="320" y="203" key="Vcs.Push.Dialog.v2/0.23.1440.877@0.23.1440.877" timestamp="1615468866122" />
   </component>
 </project>
