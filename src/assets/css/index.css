@@ -7,6 +7,15 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-#test {
-  background: #282c34;
+.site-layout .site-layout-background {
+  background-color: #fff;
 }
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.site-page-header {
+  border: 1px solid #ebedf0;
+}
+/*# sourceMappingURL=./index.css.map */
