@@ -1,11 +1,11 @@
 import { Component } from 'react'
 import { NavLink, Switch, Route, Redirect} from 'react-router-dom'
-import { Layout, Menu, Breadcrumb, PageHeader } from 'antd'
+import { Layout, Menu, PageHeader } from 'antd'
 import {
-    DesktopOutlined,
-    BarChartOutlined,
-    CodepenOutlined,
-  } from '@ant-design/icons';
+  DesktopOutlined,
+  BarChartOutlined,
+  CodepenOutlined,
+} from '@ant-design/icons'
 import './assets/css/index.css'
 import Home from './components/Home'
 import DevList from './components/DevList'
@@ -67,11 +67,7 @@ export default class App extends Component {
                         breadcrumb={{ routes }}
                     />
                     </Header>
-                    <Content style={{ margin: '10px 16px' }}>
-                        <Breadcrumb style={{ margin: '0 16px' }}>
-                            <Breadcrumb.Item>User</Breadcrumb.Item>
-                            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                        </Breadcrumb>
+                    <Content style={{ margin: '10px 16px', padding: '30px 0px' }}>
                         <Switch>
                           <Route path="/home" component={ Home } />
                           <Route path="/list" component={ DevList } />
