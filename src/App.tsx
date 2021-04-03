@@ -45,14 +45,12 @@ export default class App extends Component {
                     <div className="logo"></div>
                     <Menu theme="dark" mode="inline">
                         <SubMenu key="sub1" icon={<DesktopOutlined />} title="设备管理">
-                            <Menu.Item key="3">设备注册</Menu.Item>
-                            <Menu.Item key="4">设备连接</Menu.Item>
-                            <Menu.Item key="5"><NavLink to="/list">设备列表</NavLink></Menu.Item>
+                            <Menu.Item key="1"><NavLink to="/list">设备列表</NavLink></Menu.Item>
                         </SubMenu>
                         <Menu.Item key="2" icon={<BarChartOutlined />}>
                             数据分析
                         </Menu.Item>
-                        <Menu.Item key="9" icon={<CodepenOutlined />}>
+                        <Menu.Item key="3" icon={<CodepenOutlined />}>
                             规则引擎
                         </Menu.Item>
                     </Menu>

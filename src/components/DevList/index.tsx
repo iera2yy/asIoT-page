@@ -4,11 +4,18 @@ import {
     PlusCircleOutlined,
     InfoCircleOutlined
 } from '@ant-design/icons'
-import { Button, Table, Drawer, Form, Col, Row, Input, Select } from 'antd'
+import { 
+    Button, Table, Drawer, Form, Col, Row, 
+    Input, Select, FormInstance, message 
+} from 'antd'
+import { ajax } from '../../api/ajax'
 
 const { Option } = Select
 
 export default class DevList extends Component {
+    
+    drawerRef = React.createRef<FormInstance>()
+
     columns = [{
         title: 'ID',
         dataIndex: 'id',
@@ -65,7 +72,23 @@ export default class DevList extends Component {
     }
 
     checkTopic = (_: any, value: any) => {
-        return !value || /^[^\s](\/[^\s])*$/.test(value) ? Promise.resolve() : Promise.reject('输入不要有空格，参考格式xx/yy/zz！');
+        return !value || /^[^\s]+(\/[^\s])*$/.test(value) ? Promise.resolve() : Promise.reject('输入不要有空格，参考格式xx/yy/zz！');
+    }
+
+    setRegister = () => {
+        this.drawerRef.current?.submit()
+    }
+
+    submitDev = (fieldValue: any) => {
+        ajax('/device/', fieldValue, "POST").then((resp: any) => {
+            message.loading({ content: '正在上传注册信息....', key: 'upload' })
+            if (resp.status === 200) {
+                message.success({ content: resp.data, key: 'upload', duration: 2 })
+                this.onClose()
+                this.drawerRef.current?.resetFields()
+            }
+            
+        });
     }
 
     render() {
@@ -91,13 +114,13 @@ export default class DevList extends Component {
                         <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                             取消
                         </Button>
-                        <Button onClick={this.onClose} type="primary">
+                        <Button type="primary" onClick={this.setRegister}>
                             注册
                         </Button>
                         </div>
                     }
                 >
-                    <Form layout="vertical" hideRequiredMark>
+                    <Form ref={this.drawerRef} layout="vertical" hideRequiredMark onFinish={this.submitDev}>
                         <Row gutter={16}>
                             <Col span={12}>
                                 <Form.Item
@@ -199,8 +222,8 @@ export default class DevList extends Component {
                                     label="设备描述"
                                     rules={[
                                         {
-                                        required: true,
-                                        message: 'please enter description',
+                                            required: true,
+                                            message: 'please enter description',
                                         }
                                     ]}
                                 >
