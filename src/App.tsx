@@ -41,8 +41,8 @@ export default class App extends Component {
     }
 
     onGoBack = () => {
-        window.history.back()
         if (this.state.titleIdx > 0) {
+            window.history.back()
             const titleTmp = this.state.title
             titleTmp.pop()
             this.setState({ title: titleTmp, titleIdx: this.state.titleIdx - 1 })

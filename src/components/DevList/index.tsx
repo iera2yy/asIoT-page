@@ -59,25 +59,13 @@ export default class DevList extends Component {
 
     state = { visible: false }
 
-    showDevRegister = () => {
-        this.setState({
-            visible: true
-        })
-    }
+    showDevRegister = () => this.setState({ visible: true })
 
-    onClose = () => {
-        this.setState({
-            visible: false
-        })
-    }
+    onClose = () => this.setState({ visible: false })
 
-    checkTopic = (_: any, value: any) => {
-        return !value || /^[^\s]+(\/[^\s])*$/.test(value) ? Promise.resolve() : Promise.reject('输入不要有空格，参考格式xx/yy/zz！');
-    }
+    checkTopic = (_: any, value: any) => !value || /^[^\s]+(\/[^\s])*$/.test(value) ? Promise.resolve() : Promise.reject('输入不要有空格，参考格式xx/yy/zz！')
 
-    setRegister = () => {
-        this.drawerRef.current?.submit()
-    }
+    setRegister = () => this.drawerRef.current?.submit()
 
     submitDev = (fieldValue: any) => {
         ajax('/device/', fieldValue, "POST").then((resp: any) => {
@@ -94,8 +82,8 @@ export default class DevList extends Component {
     render() {
         return (
             <Fragment>
-                <div className="devtitle">
-                    <Button onClick={this.showDevRegister} type="primary" className="devregister" icon={<PlusCircleOutlined />} shape="round">
+                <div className="dev-title">
+                    <Button onClick={this.showDevRegister} type="primary" className="dev-register" icon={<PlusCircleOutlined />} shape="round">
                         设备注册
                     </Button>
                 </div>
