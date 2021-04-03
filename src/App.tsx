@@ -4,11 +4,13 @@ import { Layout, Menu, PageHeader } from 'antd'
 import {
   DesktopOutlined,
   BarChartOutlined,
-  CodepenOutlined,
+  CodepenOutlined
 } from '@ant-design/icons'
 import './assets/css/index.css'
 import Home from './components/Home'
 import DevList from './components/DevList'
+import DataCharts from './components/DataCharts'
+import RuleEng from './components/RuleEng'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,26 +18,39 @@ const { SubMenu } = Menu;
 export default class App extends Component {
     state = {
         collapsed: false,
-        routes: [
-            {
-              path: 'index',
-              breadcrumbName: 'First-level Menu',
-            },
-            {
-              path: 'first',
-              breadcrumbName: 'Second-level Menu',
-            },
-            {
-              path: 'second',
-              breadcrumbName: 'Third-level Menu',
-            },
-        ]
+        title: ['主页'],
+        titleIdx: 0
     }
 
     onCollapse = (collapsed: boolean) => this.setState({ collapsed });
 
+    changeTitle = (e: any) => {
+        switch(e.key) {
+            case 'DeviceList':
+                this.setState({ title: [...this.state.title, '设备列表'], titleIdx: this.state.titleIdx + 1 })
+                break
+            case 'DataDetail':
+                this.setState({ title: [...this.state.title, '数据分析'], titleIdx: this.state.titleIdx + 1 })
+                break
+            case 'RuleList':
+                this.setState({ title: [...this.state.title, '规则列表'], titleIdx: this.state.titleIdx + 1 })
+                break
+            default:
+                
+        }   
+    }
+
+    onGoBack = () => {
+        window.history.back()
+        if (this.state.titleIdx > 0) {
+            const titleTmp = this.state.title
+            titleTmp.pop()
+            this.setState({ title: titleTmp, titleIdx: this.state.titleIdx - 1 })
+        }
+    }
+
     render() {
-        const { collapsed, routes } = this.state;
+        const { collapsed, title, titleIdx } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
@@ -44,38 +59,40 @@ export default class App extends Component {
                     onCollapse={ this.onCollapse }>
                     <div className="logo"></div>
                     <Menu theme="dark" mode="inline">
-                        <SubMenu key="sub1" icon={<DesktopOutlined />} title="设备管理">
-                            <Menu.Item key="1"><NavLink to="/list">设备列表</NavLink></Menu.Item>
+                        <SubMenu key="DeviceManage" icon={<DesktopOutlined />} title="设备管理">
+                            <Menu.Item key="DeviceList" onClick={this.changeTitle}><NavLink to="/list">设备列表</NavLink></Menu.Item>
                         </SubMenu>
-                        <Menu.Item key="2" icon={<BarChartOutlined />}>
-                            数据分析
-                        </Menu.Item>
-                        <Menu.Item key="3" icon={<CodepenOutlined />}>
-                            规则引擎
-                        </Menu.Item>
+                        <SubMenu key="DataAnalysis" icon={<BarChartOutlined />} title="数据分析">
+                            <Menu.Item key="DataDetail" onClick={this.changeTitle}><NavLink to="/charts">数据分析</NavLink></Menu.Item>
+                        </SubMenu>
+                        <SubMenu key="RuleEnginee" icon={<CodepenOutlined />} title="规则引擎">
+                            <Menu.Item key="RuleList" onClick={this.changeTitle}><NavLink to="/ruleEng">规则列表</NavLink></Menu.Item>
+                        </SubMenu>
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
                     <Header className="site-layout-background" style={{ padding: 0 }}>
                     <PageHeader
                         className="site-page-header"
-                        onBack={() => window.history.back()}
-                        title="Title"
-                        subTitle="This is a subtitle"
-                        breadcrumb={{ routes }}
+                        onBack={this.onGoBack}
+                        title={title[titleIdx]}
                     />
                     </Header>
-                    <Content style={{ margin: '10px 16px', padding: '30px 0px' }}>
+                    <Content className="site-page-content">
                         <Switch>
                           <Route path="/home" component={ Home } />
                           <Route path="/list" component={ DevList } />
+                          <Route path="/charts" component={ DataCharts } />
+                          <Route path="/ruleEng" component={ RuleEng } />
                           <Redirect to="/home" />
                         </Switch>
                     </Content>
                     <Footer style={{ 
                         textAlign: 'center',
-                        backgroundColor: '#f7f7f7'
-                    }}>saIoT@2021 Create by 南园11舍221研究室</Footer>
+                        fontSize: '12px',
+                        color: '#777',
+                        backgroundColor: '#e5e5e5'
+                    }}>Copyright@2021 Create by 南园11舍221研究室</Footer>
                 </Layout>
             </Layout>
         )
