@@ -5,49 +5,40 @@ import {
 } from '@ant-design/icons'
 import { 
     Button, Table, Drawer, Form, Switch,
-    Input, FormInstance
+    Input, FormInstance, message
 } from 'antd'
+import { ajax } from '../../api/ajax'
 
 export default class RuleEng extends Component {
 
     drawerRef = React.createRef<FormInstance>()
 
     columns = [
-        { title: 'ID', dataIndex: 'id', key: 'id' },
         { title: '名称', dataIndex: 'name', key: 'name' },
         { title: '字段', dataIndex: 'columns', key: 'columns' },
         { title: 'Topic', dataIndex: 'topic', key: 'topic' },
         { title: '条件', dataIndex: 'condition', key: 'condition' },
         { title: '描述', dataIndex: 'description', key: 'description' },
-        { title: '操作', key: '', dataIndex: '', render: () => <Switch defaultChecked onChange={this.onChange} /> }
+        { title: '操作', key: 'ops', dataIndex: 'ops', render: () => <Switch defaultChecked onChange={this.onChange} /> }
     ]
-
-    data = [{
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    }, {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    }, {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    }]
 
     layout = {
         labelCol: { span: 3 },
         wrapperCol: { span: 21 },
     };
 
-    state = { visible: false }
+    state = { data: [], visible: false }
+
+    componentDidMount = () => {
+        ajax('/rule/').then((resp: any) => {
+            message.loading({ content: '正在获取规则列表...', key: 'getRules' })
+            if (resp.status === 200) {
+                message.success({ content: '已同步更新!!!', key: 'getRules', duration: 1 })
+                console.log(resp.data)
+                this.setState({ data: resp.data.data })
+            }
+        })
+    }
 
     showRuleRegister = () => this.setState({ visible: true })
 
@@ -55,11 +46,22 @@ export default class RuleEng extends Component {
 
     setRegister = () => this.drawerRef.current?.submit()
 
-    submitRule = () => {}
+    submitRule = (fieldValue: any) => {
+        ajax('/rule/', fieldValue, "POST").then((resp: any) => {
+            message.loading({ content: '正在上传注册信息....', key: 'upload' })
+            if (resp.status === 200) {
+                message.success({ content: resp.data.msg, key: 'upload', duration: 1 })
+                this.onClose()
+                this.drawerRef.current?.resetFields()
+            }
+        })
+    }
 
     onChange = () => {}
 
     render() {
+        const { data } = this.state
+
         return (
             <Fragment>
                 <div className="rule-title">
@@ -67,7 +69,7 @@ export default class RuleEng extends Component {
                         创建规则
                     </Button>
                 </div>
-                <Table columns={ this.columns } dataSource={ this.data } />
+                <Table columns={ this.columns } dataSource={ data } rowKey={ (record: any) => record.id } />
 
                 <Drawer
                     title="创建规则"

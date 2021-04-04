@@ -17,47 +17,43 @@ export default class DevList extends Component {
     drawerRef = React.createRef<FormInstance>()
 
     columns = [{
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-    }, {
         title: '设备名',
         dataIndex: 'name',
         key: 'name'
+    },  {
+        title: '设备编号',
+        dataIndex: 'dcode',
+        key: 'dcode'
+    },  {
+        title: '设备权限',
+        dataIndex: 'secret',
+        key: 'secret'
     }, {
+        title: '设备类型',
+        dataIndex: 'type',
+        key: 'type'
+    },  {
         title: '设备IP',
-        dataIndex: 'address',
-        key: 'address'
+        dataIndex: 'ip',
+        key: 'ip'
     }, {
         title: '设备端口',
         key: 'port',
         dataIndex: 'port'
-    }, {
-        title: 'Topic',
-        key: 'topic'
-    }]
-      
-    data = [{
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    }, {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    }, {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
     }]
 
-    state = { visible: false }
+    state = { data: [], visible: false }
+
+    componentDidMount = () => {
+        ajax('/device/').then((resp: any) => {
+            message.loading({ content: '正在获取设备列表...', key: 'fresh' })
+            if (resp.status === 200) {
+                message.success({ content: '已同步更新!!!', key: 'fresh', duration: 1 })
+                console.log(resp.data)
+                this.setState({ data: resp.data.data })
+            }
+        })
+    }
 
     showDevRegister = () => this.setState({ visible: true })
 
@@ -71,15 +67,16 @@ export default class DevList extends Component {
         ajax('/device/', fieldValue, "POST").then((resp: any) => {
             message.loading({ content: '正在上传注册信息....', key: 'upload' })
             if (resp.status === 200) {
-                message.success({ content: resp.data, key: 'upload', duration: 2 })
+                message.success({ content: resp.data.msg, key: 'upload', duration: 1 })
                 this.onClose()
                 this.drawerRef.current?.resetFields()
             }
-            
-        });
+        })
     }
 
     render() {
+        const { data } = this.state;
+
         return (
             <Fragment>
                 <div className="dev-title">
@@ -87,7 +84,7 @@ export default class DevList extends Component {
                         设备注册
                     </Button>
                 </div>
-                <Table columns={ this.columns } dataSource={ this.data } />
+                <Table columns={ this.columns } dataSource={ data } rowKey={ (record: any) => record.id } />
 
                 <Drawer
                     title="设备注册"
