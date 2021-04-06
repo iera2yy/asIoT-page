@@ -8,6 +8,7 @@ import {
     Input, FormInstance, message
 } from 'antd'
 import { ajax } from '../../api/ajax'
+import { AxiosResponse } from 'axios'
 
 export default class RuleEng extends Component {
 
@@ -19,7 +20,7 @@ export default class RuleEng extends Component {
         { title: 'Topic', dataIndex: 'topic', key: 'topic' },
         { title: '条件', dataIndex: 'condition', key: 'condition' },
         { title: '描述', dataIndex: 'description', key: 'description' },
-        { title: '操作', key: 'ops', dataIndex: 'ops', render: () => <Switch defaultChecked onChange={this.onChange} /> }
+        { title: '操作', key: 'ops', dataIndex: 'ops', render: (_: any, record: any) => <Switch defaultChecked onChange={this.handleChange(record)} /> }
     ]
 
     layout = {
@@ -30,11 +31,11 @@ export default class RuleEng extends Component {
     state = { data: [], visible: false }
 
     componentDidMount = () => {
-        ajax('/rule/').then((resp: any) => {
+        ajax('/api/rule/').then((resp: AxiosResponse) => {
             message.loading({ content: '正在获取规则列表...', key: 'getRules' })
             if (resp.status === 200) {
                 message.success({ content: '已同步更新!!!', key: 'getRules', duration: 1 })
-                console.log(resp.data)
+                // console.log(resp.data)
                 this.setState({ data: resp.data.data })
             }
         })
@@ -47,7 +48,7 @@ export default class RuleEng extends Component {
     setRegister = () => this.drawerRef.current?.submit()
 
     submitRule = (fieldValue: any) => {
-        ajax('/rule/', fieldValue, "POST").then((resp: any) => {
+        ajax('/api/rule/', fieldValue, "POST").then((resp: AxiosResponse) => {
             message.loading({ content: '正在上传注册信息....', key: 'upload' })
             if (resp.status === 200) {
                 message.success({ content: resp.data.msg, key: 'upload', duration: 1 })
@@ -57,7 +58,16 @@ export default class RuleEng extends Component {
         })
     }
 
-    onChange = () => {}
+    handleChange = (record: any) => () => {
+        // console.log(record, checked)
+        ajax('/api/rule/switch/' + record.id, {}, "POST").then((resp: AxiosResponse) => {
+            message.loading({ content: '正在切换规则状态....', key: 'switching' })
+            if (resp.status === 200) {
+                console.log(resp.data)
+                message.success({ content: resp.data.msg, key: 'switching', duration: 1 })
+            }
+        })
+    }
 
     render() {
         const { data } = this.state
@@ -78,15 +88,13 @@ export default class RuleEng extends Component {
                     visible={this.state.visible}
                     bodyStyle={{ paddingBottom: 80 }}
                     footer={
-                        <div
-                            style={{ textAlign: 'right' }}
-                        >
-                        <Button onClick={this.onClose} style={{ marginRight: 8 }}>
-                            取消
-                        </Button>
-                        <Button type="primary" onClick={this.setRegister}>
-                            注册
-                        </Button>
+                        <div style={{ textAlign: 'right' }}>
+                            <Button onClick={this.onClose} style={{ marginRight: 8 }}>
+                                取消
+                            </Button>
+                            <Button type="primary" onClick={this.setRegister}>
+                                注册
+                            </Button>
                         </div>
                     }
                 >
