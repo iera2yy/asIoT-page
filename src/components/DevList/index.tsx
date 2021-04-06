@@ -5,7 +5,7 @@ import {
     InfoCircleOutlined
 } from '@ant-design/icons'
 import { 
-    Button, Table, Drawer, Form, Col, Row, 
+    Button, Table, Drawer, Form, Col, Row, Tag,
     Input, Select, FormInstance, message 
 } from 'antd'
 import { ajax } from '../../api/ajax'
@@ -23,17 +23,20 @@ export default class DevList extends Component {
         { title: '设备权限', dataIndex: 'secret', key: 'secret' },
         { title: '设备类型', dataIndex: 'type', key: 'type' },
         { title: '设备IP', dataIndex: 'ip', key: 'ip' },
-        { title: '设备端口', key: 'port', dataIndex: 'port'}
+        { title: '设备端口', key: 'port', dataIndex: 'port'},
+        { title: '设备状态', key: 'status', dataIndex: 'status', render: (text: string, record: any) => {
+            const color = text === '已连接' ? 'green' : (text === '已断开' ? 'magenta' : '#a7a7a7')
+            return (<Tag color={ color } key={ record.id }>{ text }</Tag>)
+        } }
     ]
 
-    state = { data: [], visible: false }
+    state = { data: [], visible: false, pagination: { current: 1, pageSize: 10 }  }
 
     componentDidMount = () => {
         ajax('/api/device/').then((resp: AxiosResponse) => {
             message.loading({ content: '正在获取设备列表...', key: 'fresh' })
             if (resp.status === 200) {
                 message.success({ content: '已同步更新!!!', key: 'fresh', duration: 1 })
-                // console.log(resp.data)
                 this.setState({ data: resp.data })
             }
         })
@@ -58,8 +61,10 @@ export default class DevList extends Component {
         })
     }
 
+    handleTableChange = (pagination: any) => this.setState({ pagination })
+
     render() {
-        const { data } = this.state;
+        const { data, pagination } = this.state;
 
         return (
             <Fragment>
@@ -68,7 +73,13 @@ export default class DevList extends Component {
                         设备注册
                     </Button>
                 </div>
-                <Table columns={ this.columns } dataSource={ data } rowKey={ (record: any) => record.id } />
+                <Table 
+                    columns={ this.columns } 
+                    dataSource={ data } 
+                    rowKey={ (record: any) => record.id } 
+                    pagination={pagination}
+                    onChange={this.handleTableChange}
+                />
 
                 <Drawer
                     title="设备注册"
