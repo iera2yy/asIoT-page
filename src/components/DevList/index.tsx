@@ -34,7 +34,7 @@ export default class DevList extends Component {
             if (resp.status === 200) {
                 message.success({ content: '已同步更新!!!', key: 'fresh', duration: 1 })
                 // console.log(resp.data)
-                this.setState({ data: resp.data.data })
+                this.setState({ data: resp.data })
             }
         })
     }
