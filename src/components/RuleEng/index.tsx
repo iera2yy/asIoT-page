@@ -33,7 +33,9 @@ export default class RuleEng extends Component {
 
     state = { data: [], visible: false, devices: [], pagination: { current: 1, pageSize: 10 } }
 
-    componentDidMount = () => {
+    componentDidMount = () => this.getRuleEng()
+
+    getRuleEng = () => {
         ajax('/api/rule/').then((resp: AxiosResponse) => {
             message.loading({ content: '正在获取规则列表...', key: 'getRules' })
             if (resp.status === 200) {
@@ -60,6 +62,7 @@ export default class RuleEng extends Component {
             message.loading({ content: '正在上传注册信息....', key: 'upload' })
             if (resp.status === 200) {
                 message.success({ content: resp.data.msg, key: 'upload', duration: 1 })
+                this.getRuleEng()
                 this.onClose()
                 this.drawerRef.current?.resetFields()
             }

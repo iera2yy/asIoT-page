@@ -32,7 +32,9 @@ export default class DevList extends Component {
 
     state = { data: [], visible: false, pagination: { current: 1, pageSize: 10 }  }
 
-    componentDidMount = () => {
+    componentDidMount = () => this.getDevList()
+
+    getDevList = () => {
         ajax('/api/device/').then((resp: AxiosResponse) => {
             message.loading({ content: '正在获取设备列表...', key: 'fresh' })
             if (resp.status === 200) {
@@ -55,6 +57,7 @@ export default class DevList extends Component {
             message.loading({ content: '正在上传注册信息....', key: 'upload' })
             if (resp.status === 200) {
                 message.success({ content: resp.data.msg, key: 'upload', duration: 1 })
+                this.getDevList()
                 this.onClose()
                 this.drawerRef.current?.resetFields()
             }
