@@ -7,20 +7,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-.site-layout .site-layout-background {
-  background-color: #fff;
-}
-.site-layout .site-page-header {
-  border: 1px solid #ebedf0;
-}
-.site-layout .site-page-content {
-  background-color: #fff;
-  margin: 10px 16px;
-  padding: 30px 10px;
-}
-.logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.2);
-}
 /*# sourceMappingURL=./index.css.map */

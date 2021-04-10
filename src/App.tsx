@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { NavLink, Switch, Route, Redirect} from 'react-router-dom'
+import './assets/css/app.css'
 import { Layout, Menu, PageHeader } from 'antd'
 import {
   DesktopOutlined,
@@ -54,6 +55,7 @@ export default class App extends Component {
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
+                    className="app-slider"
                     collapsible
                     collapsed={ collapsed }
                     onCollapse={ this.onCollapse }>
@@ -70,7 +72,7 @@ export default class App extends Component {
                         </SubMenu>
                     </Menu>
                 </Sider>
-                <Layout className="site-layout">
+                <Layout className="site-layout" style={{marginLeft: 200}}>
                     <Header className="site-layout-background" style={{ padding: 0 }}>
                     <PageHeader
                         className="site-page-header"

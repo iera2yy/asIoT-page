@@ -1,0 +1,8 @@
+.charts-select-flex {
+  display: flex;
+  justify-content: flex-end;
+}
+.charts-select-flex .flex-item {
+  width: 120px;
+}
+/*# sourceMappingURL=./dataCharts.css.map */
