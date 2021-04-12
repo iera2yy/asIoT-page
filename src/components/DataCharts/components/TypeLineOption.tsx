@@ -14,18 +14,34 @@ echarts.use(
     [TitleComponent, TooltipComponent, LegendComponent, GridComponent, BarChart, CanvasRenderer]
 )
 
-export default class TypeLineOption extends Component {
+interface Device {
+    id: number,
+    name: string,
+    value: number,
+    week_val: number[]
+}
+
+interface Props {
+    devices: Device[]
+}
+
+export default class TypeLineOption extends Component<Props> {
 
     getTypeLineOption = () => {
+        let max = Number.MIN_SAFE_INTEGER, min = Number.MAX_SAFE_INTEGER
+        for (const item of this.props.devices) {
+            max = Math.max(max, ...item.week_val)
+            min = Math.min(min, ...item.week_val)
+        }
         return {
             title: {
-                text: "LineChart"
+                text: "上周数据折线图"
             },
             tooltip: {
                 trigger: 'axis'
             },
             legend: {
-                data: ['东北角温度传感器', '西南角温度传感器', '东南角温度传感器', '平均']
+                data: this.props.devices.map(item => item.name)
             },
             grid: {
                 left: '3%',
@@ -40,35 +56,15 @@ export default class TypeLineOption extends Component {
             },
             yAxis: {
                 type: 'value',
-                min: 18,
-                max: 26
+                min: Math.floor(min),
+                max: Math.ceil(max)
             },
-            series: [
-                {
-                    name: '东北角温度传感器',
-                    type: 'line',
-                    smooth: true,
-                    data: [23, 22, 24, 23, 25, 23, 22]
-                },
-                {
-                    name: '西南角温度传感器',
-                    type: 'line',
-                    smooth: true,
-                    data: [24, 21, 23, 23, 24, 23, 25]
-                },
-                {
-                    name: '东南角温度传感器',
-                    type: 'line',
-                    smooth: true,
-                    data: [19, 21, 23, 24, 25, 23, 22]
-                },
-                {
-                    name: '平均',
-                    type: 'line',
-                    smooth: true,
-                    data: [23.12, 22.85, 24.63, 23.46, 25.20, 23.44, 22.76]
-                }
-            ]
+            series: this.props.devices.map(item => ({
+                name: item.name,
+                type: 'line',
+                smooth: true,
+                data: item.week_val
+            }))
         }
     }
 

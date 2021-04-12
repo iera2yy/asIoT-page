@@ -12,32 +12,42 @@ echarts.use(
     [TitleComponent, TooltipComponent, LineChart, CanvasRenderer]
 )
 
-interface chartState {
+interface ChartState {
     data: any[],
     timer: any
 }
 
-export default class DeviceLineOption extends Component {
+interface Device {
+    id: number,
+    name: string,
+    value: number,
+    week_val: number[]
+}
+
+interface Props {
+    device: Device
+}
+
+export default class DeviceLineOption extends Component<Props> {
 
     echartsReact: any
 
-    now = +new Date(1997, 9, 3)
-    value = Math.random() * 400
+    now = +new Date() - 3600000
+    value = 250
 
-    state: chartState = {
+    state: ChartState = {
         data: [],
         timer: null
     }
 
     randomData = () => {
-        this.now = +new Date(this.now + 2000)
-        this.value = this.value + (Math.random() * 10 - 5)
+        this.now = +new Date(this.now + 1000)
+        this.value = this.value + Math.cos(Math.random() * 360)
         const now = new Date(this.now)
         return {
             name: now.toString(),
             value: [
                 now.getTime(),
-                // [now.getFullYear(), now.getMonth() + 1, now.getDate(), now.getTime()].join('/'),
                 Math.round(this.value)
             ]
         };
@@ -66,8 +76,7 @@ export default class DeviceLineOption extends Component {
                     }]
                 })
             })
-        }, 2000)
-        console.log(data[0])
+        }, 1000)
         this.setState({ timer })
     }
 
@@ -82,14 +91,14 @@ export default class DeviceLineOption extends Component {
         const { data } = this.state
         return {
             title: {
-                text: '动态数据 + 时间坐标轴'
+                text: this.props.device.name + "实时数据"
             },
             tooltip: {
                 trigger: 'axis',
                 formatter: function (params: any) {
                     params = params[0];
                     var date = new Date(params.name);
-                    const _date = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+                    const _date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
                     const _time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
                     return  _date + ' ' + _time + ' ' + params.value[1];
                 },
@@ -108,6 +117,11 @@ export default class DeviceLineOption extends Component {
                 boundaryGap: [0, '100%'],
                 splitLine: {
                     show: false
+                },
+                axisLabel: {
+                    formatter: function (value: number) {
+                        return value / 10
+                    }
                 }
             },
             series: [{
