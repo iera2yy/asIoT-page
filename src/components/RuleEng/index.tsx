@@ -110,7 +110,7 @@ export default class RuleEng extends Component {
                                 取消
                             </Button>
                             <Button type="primary" onClick={this.setRegister}>
-                                注册
+                                创建
                             </Button>
                         </div>
                     }
