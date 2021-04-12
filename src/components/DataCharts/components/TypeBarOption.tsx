@@ -13,13 +13,6 @@ echarts.use(
     [TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]
 )
 
-interface Device {
-    id: number,
-    name: string,
-    value: number,
-    week_val: number[]
-}
-
 interface Props {
     devices: Device[]
 }

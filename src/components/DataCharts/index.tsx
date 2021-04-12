@@ -9,13 +9,6 @@ import { ajax } from '../../api/ajax'
 import { AxiosResponse } from 'axios'
 import { SelectValue, RefSelectProps } from 'antd/lib/select'
 
-interface Device {
-    id: number,
-    name: string,
-    value: number,
-    week_val: number[]
-}
-
 interface DeviceType {
     chooseDevice: boolean,
     deviceId: number|string|undefined,

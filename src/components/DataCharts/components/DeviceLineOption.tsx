@@ -17,13 +17,6 @@ interface ChartState {
     timer: any
 }
 
-interface Device {
-    id: number,
-    name: string,
-    value: number,
-    week_val: number[]
-}
-
 interface Props {
     device: Device
 }
