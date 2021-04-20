@@ -65,6 +65,7 @@ export default class TypeBarOption extends Component<Props> {
     }
 
     render() {
+        console.log(this.props)
         return (
             <>
                 <ReactEchartsCore

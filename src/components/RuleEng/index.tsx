@@ -23,7 +23,7 @@ export default class RuleEng extends Component {
         { title: '转发路径', dataIndex: 'path', key: 'path' },
         { title: '条件', dataIndex: 'condition', key: 'condition' },
         { title: '描述', dataIndex: 'description', key: 'description' },
-        { title: '操作', key: 'ops', dataIndex: 'ops', render: (_: any, record: any) => <Switch defaultChecked onChange={this.handleChange(record)} /> }
+        { title: '操作', key: 'ops', dataIndex: 'ops', render: (_: any, record: any) => <Switch defaultChecked={record.status === 1} onChange={this.handleChange(record)} /> }
     ]
 
     layout = {
@@ -31,7 +31,7 @@ export default class RuleEng extends Component {
         wrapperCol: { span: 21 },
     };
 
-    state = { data: [], visible: false, devices: [], pagination: { current: 1, pageSize: 10 } }
+    state = { data: [], visible: false, loading: false, devices: [], pagination: { current: 1, pageSize: 10 } }
 
     componentDidMount = () => this.getRuleEng()
 
@@ -55,7 +55,14 @@ export default class RuleEng extends Component {
 
     onClose = () => this.setState({ visible: false })
 
-    setRegister = () => this.drawerRef.current?.submit()
+    setRegister = () => {
+        this.drawerRef.current?.validateFields().then(() =>{
+            this.setState({ loading: true })
+            this.drawerRef.current?.submit()
+        }).catch(() => {
+            message.warning('请正确填写表单!')
+        })
+    }
 
     submitRule = (fieldValue: any) => {
         ajax('/api/rule/', fieldValue, "POST").then((resp: AxiosResponse) => {
@@ -65,6 +72,7 @@ export default class RuleEng extends Component {
                 this.getRuleEng()
                 this.onClose()
                 this.drawerRef.current?.resetFields()
+                this.setState({ loading: false })
             }
         })
     }
@@ -81,7 +89,7 @@ export default class RuleEng extends Component {
     handleTableChange = (pagination: any) => this.setState({ pagination })
 
     render() {
-        const { data, devices, pagination } = this.state
+        const { data, loading, devices, pagination } = this.state
 
         return (
             <Fragment>
@@ -109,7 +117,7 @@ export default class RuleEng extends Component {
                             <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                                 取消
                             </Button>
-                            <Button type="primary" onClick={this.setRegister}>
+                            <Button type="primary" onClick={this.setRegister} loading={loading}>
                                 创建
                             </Button>
                         </div>

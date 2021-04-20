@@ -8,19 +8,21 @@ import {
   CodepenOutlined
 } from '@ant-design/icons'
 import './assets/css/index.css'
+import { ReduxStateToPropsParam } from '../src/types/redux'
 import Home from './components/Home'
 import DevList from './components/DevList'
 import DataCharts from './components/DataCharts'
 import RuleEng from './components/RuleEng'
+import { connect } from 'react-redux'
+import { onPush, onBack } from '../src/redux/actions/title'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default class App extends Component {
+class AppUI extends Component<ReduxStateToPropsParam> {
     state = {
         collapsed: false,
-        title: ['主页'],
-        titleIdx: 0
+        title: this.props.title[this.props.title.length - 1]
     }
 
     onCollapse = (collapsed: boolean) => this.setState({ collapsed });
@@ -28,13 +30,16 @@ export default class App extends Component {
     changeTitle = (e: any) => {
         switch(e.key) {
             case 'DeviceList':
-                this.setState({ title: [...this.state.title, '设备列表'], titleIdx: this.state.titleIdx + 1 })
+                this.props.onPush([...this.props.title], '设备列表')
+                this.setState({ title: '设备列表' })
                 break
             case 'DataDetail':
-                this.setState({ title: [...this.state.title, '数据分析'], titleIdx: this.state.titleIdx + 1 })
+                this.props.onPush([...this.props.title], '数据分析')
+                this.setState({ title: '数据分析' })
                 break
             case 'RuleList':
-                this.setState({ title: [...this.state.title, '规则列表'], titleIdx: this.state.titleIdx + 1 })
+                this.props.onPush([...this.props.title], '规则列表')
+                this.setState({ title: '规则列表' })
                 break
             default:
                 
@@ -42,16 +47,19 @@ export default class App extends Component {
     }
 
     onGoBack = () => {
-        if (this.state.titleIdx > 0) {
+        if (this.props.title.length > 1) {
             window.history.back()
-            const titleTmp = this.state.title
-            titleTmp.pop()
-            this.setState({ title: titleTmp, titleIdx: this.state.titleIdx - 1 })
+            new Promise((resolve) => {
+                this.props.onBack([...this.props.title])
+                resolve('状态已更新!')
+            }).then (() => {
+                this.setState({ title: this.props.title[this.props.title.length - 1] })
+            })
         }
     }
 
     render() {
-        const { collapsed, title, titleIdx } = this.state;
+        const { collapsed, title } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
@@ -77,7 +85,7 @@ export default class App extends Component {
                     <PageHeader
                         className="site-page-header"
                         onBack={this.onGoBack}
-                        title={title[titleIdx]}
+                        title={title}
                     />
                     </Header>
                     <Content className="site-page-content">
@@ -100,3 +108,11 @@ export default class App extends Component {
         )
     }
 }
+
+export default connect(
+    (mapStateToProps: ReduxStateToPropsParam) => ({ title: mapStateToProps.title }),
+    {
+        onPush,
+        onBack
+    }
+)(AppUI)

@@ -30,7 +30,7 @@ export default class DevList extends Component {
         } }
     ]
 
-    state = { data: [], visible: false, pagination: { current: 1, pageSize: 10 }  }
+    state = { data: [], visible: false, loading: false, pagination: { current: 1, pageSize: 10 }  }
 
     componentDidMount = () => this.getDevList()
 
@@ -50,7 +50,14 @@ export default class DevList extends Component {
 
     checkTopic = (_: any, value: any) => !value || /^[^\s]+(\/[^\s])*$/.test(value) ? Promise.resolve() : Promise.reject('输入不要有空格，参考格式xx/yy/zz！')
 
-    setRegister = () => this.drawerRef.current?.submit()
+    setRegister = () => {
+        this.drawerRef.current?.validateFields().then(() =>{
+            this.setState({ loading: true })
+            this.drawerRef.current?.submit()
+        }).catch(() => {
+            message.warning('请正确填写表单!')
+        })
+    }
 
     submitDev = (fieldValue: any) => {
         ajax('/api/device/', fieldValue, "POST").then((resp: AxiosResponse) => {
@@ -60,6 +67,7 @@ export default class DevList extends Component {
                 this.getDevList()
                 this.onClose()
                 this.drawerRef.current?.resetFields()
+                this.setState({ loading: false })
             }
         })
     }
@@ -67,7 +75,7 @@ export default class DevList extends Component {
     handleTableChange = (pagination: any) => this.setState({ pagination })
 
     render() {
-        const { data, pagination } = this.state;
+        const { data, loading, pagination } = this.state;
 
         return (
             <Fragment>
@@ -97,7 +105,7 @@ export default class DevList extends Component {
                         <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                             取消
                         </Button>
-                        <Button type="primary" onClick={this.setRegister}>
+                        <Button type="primary" onClick={this.setRegister} loading={loading}>
                             注册
                         </Button>
                         </div>
